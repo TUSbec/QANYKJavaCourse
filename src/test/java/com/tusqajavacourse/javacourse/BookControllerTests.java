@@ -78,7 +78,7 @@ public class BookControllerTests {
 
     @Test
     void getBookById() throws Exception {
-        Mockito.when(booksService.getBookById(1)).thenReturn(Optional.ofNullable(library.get(0)));
+        Mockito.when(booksService.getBookById("1")).thenReturn(Optional.ofNullable(library.get(0)));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/NYKLibrary/GETbooksById/1")
@@ -169,7 +169,7 @@ public class BookControllerTests {
     @Test
     void updateBook() throws Exception {
         Book newBookOne = new Book("Alfred Alfredowski", "Spring By Bartosz", "Description by Bartosz", "Bartoszowe", 9.2);
-        Mockito.when(booksService.getBookById(1)).thenReturn(Optional.ofNullable(library.get(0)));
+        Mockito.when(booksService.getBookById("1")).thenReturn(Optional.ofNullable(library.get(0)));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/NYKLibrary/updateBooks/1")
@@ -182,7 +182,7 @@ public class BookControllerTests {
 
     @Test
     void deleteBook() throws Exception {
-        Mockito.when(booksService.getBookById(1)).thenReturn(Optional.ofNullable(library.get(0)));
+        Mockito.when(booksService.getBookById("1")).thenReturn(Optional.ofNullable(library.get(0)));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/NYKLibrary/deleteBooks/1")

@@ -4,6 +4,8 @@ import com.tusqajavacourse.javacourse.exposure.model.Book;
 import com.tusqajavacourse.javacourse.exposure.service.BooksService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
@@ -12,7 +14,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+//@SpringBootTest
+@DataMongoTest(excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
 public class BooksServiceTests {
 
     private static final List<Book> library = Arrays.asList(
@@ -54,8 +57,8 @@ public class BooksServiceTests {
     void getBookById() {
         library.forEach(libraryService::postBook);
 
-        Optional<Book> bookOne = libraryService.getBookById(1);
-        Optional<Book> bookTwo = libraryService.getBookById(4);
+        Optional<Book> bookOne = libraryService.getBookById("1");
+        Optional<Book> bookTwo = libraryService.getBookById("4");
         Book newBookOne = bookOne.get();
         Book newBookTwo = bookTwo.get();
         assertEquals("Bartosz Bartkowski", newBookOne.getAuthor());
@@ -141,18 +144,18 @@ public class BooksServiceTests {
     @Test
     void updateBook() {
         library.forEach(libraryService::postBook);
-        libraryService.updateBook(1,
+        libraryService.updateBook("1",
                 new Book("Alfred Alfredowski", "Spring By Bartosz", "Description by Bartosz", "Bartoszowe", 9.2));
         assertAll(
-                () -> assertEquals("Alfred Alfredowski", libraryService.getBookById(5).get().getAuthor()),
-                () -> assertEquals("Spring By Bartosz", libraryService.getBookById(5).get().getTitle())
+                () -> assertEquals("Alfred Alfredowski", libraryService.getBookById("5").get().getAuthor()),
+                () -> assertEquals("Spring By Bartosz", libraryService.getBookById("5").get().getTitle())
         );
     }
 
     @Test
     void deleteBook() {
         library.forEach(libraryService::postBook);
-        libraryService.deleteBookById(1);
+        libraryService.deleteBookById("1");
 
         List<Book> books = libraryService.getBooks();
         assertAll(

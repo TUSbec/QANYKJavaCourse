@@ -1,12 +1,17 @@
 package com.tusqajavacourse.javacourse.exposure.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Document
 public class Book {
     private static final AtomicInteger count = new AtomicInteger(0);
 
-    private int uniqueID;
+    @Id
+    private String uniqueID;
     private String author;
     private String title;
     private String description;
@@ -14,7 +19,7 @@ public class Book {
     private double score;
 
     public Book(String author, String title, String description, String genre, double score) {
-        this.uniqueID = count.incrementAndGet();
+        this.uniqueID = Integer.toString(count.incrementAndGet());
         this.author = author;
         this.title = title;
         this.description = description;
@@ -22,11 +27,11 @@ public class Book {
         this.score = score;
     }
 
-    public int getUniqueID() {
+    public String getUniqueID() {
         return uniqueID;
     }
 
-    public void setUniqueID(int uniqueID) {
+    public void setUniqueID(String uniqueID) {
         this.uniqueID = uniqueID;
     }
 
@@ -70,12 +75,20 @@ public class Book {
         this.score = score;
     }
 
+    public void updateFields(Book book) {
+        this.author = book.author;
+        this.title = book.title;
+        this.description = book.description;
+        this.genre = book.genre;
+        this.score = book.score;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return uniqueID == book.uniqueID && Double.compare(book.score, score) == 0 && Objects.equals(author, book.author) && Objects.equals(title, book.title) && Objects.equals(description, book.description) && Objects.equals(genre, book.genre);
+        return Double.compare(book.score, score) == 0 && Objects.equals(uniqueID, book.uniqueID) && Objects.equals(author, book.author) && Objects.equals(title, book.title) && Objects.equals(description, book.description) && Objects.equals(genre, book.genre);
     }
 
     @Override

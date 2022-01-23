@@ -38,7 +38,7 @@ public class BookController {
     }
 
     @GetMapping("/GETbooksById/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable("id") int id) {
+    public ResponseEntity<Book> getBookById(@PathVariable("id") String id) {
         return booksService.getBookById(id).isPresent() ?
                 new ResponseEntity<>(booksService.getBookById(id).get(), HttpStatus.OK) : new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
@@ -71,7 +71,7 @@ public class BookController {
     }
 
     @PutMapping("/updateBooks/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable("id") int id, @RequestBody Book book) {
+    public ResponseEntity<Book> updateBook(@PathVariable("id") String id, @RequestBody Book book) {
         try {
             booksService.updateBook(id, book);
             return new ResponseEntity<>(book, HttpStatus.OK);
@@ -81,7 +81,7 @@ public class BookController {
     }
 
     @DeleteMapping("/deleteBooks/{id}")
-    public void deleteBook(@PathVariable("id") int id) {
+    public void deleteBook(@PathVariable("id") String id) {
         booksService.deleteBookById(id);
     }
 }

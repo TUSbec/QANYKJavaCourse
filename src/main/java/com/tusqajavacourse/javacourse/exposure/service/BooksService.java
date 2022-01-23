@@ -26,8 +26,8 @@ public class BooksService {
         return this.books;
     }
 
-    public Optional<Book> getBookById(int id) {
-        return this.books.stream().filter(book -> book.getUniqueID() == id).findAny();
+    public Optional<Book> getBookById(String id) {
+        return this.books.stream().filter(book -> Objects.equals(book.getUniqueID(), id)).findAny();
     }
 
     public Optional<Book> getBookByTitle(String title) {
@@ -59,11 +59,11 @@ public class BooksService {
         return sortedByScoreMax;
     }
 
-    public void updateBook(int id, Book newBook) {
+    public void updateBook(String id, Book newBook) {
         this.books.set(books.indexOf(getBookById(id).orElseThrow()), newBook);
     }
 
-    public void deleteBookById(int id) {
-        this.books.removeIf(book -> book.getUniqueID() == id);
+    public void deleteBookById(String id) {
+        this.books.removeIf(book -> Objects.equals(book.getUniqueID(), id));
     }
 }
